@@ -1,0 +1,38 @@
+<div class="modal fade" id="supportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Soporte técnico</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="supportProblemType" class="form-label">Selecciona el tipo de problema</label>
+                    <select id="supportProblemType" class="form-select" required>
+                        <option value="">Selecciona un tipo</option>
+                        <option value="Problemas de cuenta y acceso">Problemas de cuenta y acceso</option>
+                        <option value="Falla en la carga de datos/archivos">Falla en la carga de datos/archivos</option>
+                        <option value="Errores de interfaz">Errores de interfaz</option>
+                        <option value="Sugerencia de mejora/comentarios">Sugerencia de mejora/comentarios</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="supportDescription" class="form-label">Descripción del problema</label>
+                    <textarea id="supportDescription" class="form-control" rows="4" maxlength="1000" placeholder="Describe lo que sucedió..." required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="supportEvidenceFile" class="form-label">Evidencia (imagen opcional)</label>
+                    <input type="file" id="supportEvidenceFile" class="form-control" accept="image/*,audio/*">
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="transcribeSupportFile()">Transcribir audio</button>
+                    </div>
+                </div>
+                <div id="supportError" class="alert alert-danger d-none" role="alert"></div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="submitSupportReport()">Enviar reporte</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="modal fade" id="joinModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Unirse a una clase</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="small text-muted">Pídele el código de la clase a tu profesor e introdúcelo aquí.</p>
+                <input type="text" id="classCode" class="form-control form-control-lg" placeholder="Código de la clase">
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="joinClass()">Unirse</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Crear una clase</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Nombre de la clase (obligatorio)</label>
+                    <input type="text" id="className" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Sección</label>
+                    <input type="text" id="classSection" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Materia</label>
+                    <input type="text" id="classSubject" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="createClass()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>

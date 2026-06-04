@@ -1,0 +1,109 @@
+<div class="modal fade" id="createAssignmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Tarea</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="assignmentForm">
+                    <div class="mb-3">
+                        <input type="text" id="taskTitle" class="form-control form-control-lg border-0 bg-light" placeholder="Título de la tarea" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea id="taskInstructions" class="form-control border-0 bg-light" rows="5" placeholder="Instrucciones (opcional)"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold">Unidad</label>
+                            <select id="taskUnit" class="form-control">
+                                <option value="">-- Sin unidad --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold">Puntos máximos</label>
+                            <input type="number" id="taskPoints" class="form-control" value="100">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold">Fecha y hora de entrega</label>
+                            <input type="datetime-local" id="taskDueDate" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Adjuntar material (PDF/Imagen)</label>
+                            <input type="file" id="taskFile" name="archivo_guia" class="form-control" accept=".pdf,.jpg,.png">
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label small fw-bold mb-0">Rúbricas estándar</label>
+                                <button type="button" class="menu-button-sm" data-bs-toggle="modal" data-bs-target="#rubricModal" onclick="openRubricModal('assignment', null, '<%= clase.id %>')">
+                                    <i class="fa-solid fa-plus"></i> Crear rúbrica
+                                </button>
+                            </div>
+                            <div id="rubricsCheckboxContainer" class="border rounded p-3 bg-light" style="max-height: 220px; overflow-y: auto;">
+                                <p class="small text-muted mb-0">Cargando rúbricas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary px-4" onclick="publishAssignment('<%= clase.id %>')">Asignar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editAssignmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Asignar a unidad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Seleccionar unidad</label>
+                    <select id="editTaskUnit" class="form-control">
+                        <option value="">-- Sin unidad --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary px-4" onclick="saveTaskUnit()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createUnitModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Unidad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="unitForm">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Número de unidad</label>
+                        <input type="number" id="unitNumber" class="form-control" placeholder="Ej: 1" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Nombre de la unidad</label>
+                        <input type="text" id="unitName" class="form-control form-control-lg border-0 bg-light" placeholder="Ej: Unidad 1: Introducción" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Descripción (opcional)</label>
+                        <textarea id="unitDescription" class="form-control border-0 bg-light" rows="3" placeholder="Descripción de la unidad"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary px-4" onclick="createUnit('<%= clase.id %>')">Crear unidad</button>
+            </div>
+        </div>
+    </div>
+</div>
