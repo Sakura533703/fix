@@ -113,21 +113,27 @@
             </div>
         </div>
 
-        <div class="d-flex flex-wrap gap-2 mb-4">
-            <% if (isProfesor) { %>
-                <button class="btn btn-primary btn-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#createAssignmentModal">
-                    <i class="fa-solid fa-plus me-2"></i> Crear tarea
+        <div class="d-flex flex-wrap gap-2 mb-4 align-items-center class-action-row">
+            <div class="d-flex flex-wrap gap-2 align-items-center class-action-group-start">
+                <% if (isProfesor) { %>
+                    <button class="btn btn-primary btn-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#createAssignmentModal">
+                        <i class="fa-solid fa-plus me-2"></i> Crear tarea
+                    </button>
+                    <button id="tabRendimientoBtn" class="btn btn-outline-secondary btn-sm rounded-pill px-4" onclick="switchSection('rendimiento')">
+                        <i class="fa-solid fa-chart-line me-2"></i> Rendimiento de Clase
+                    </button>
+                <% } %>
+            </div>
+            <div class="d-flex flex-wrap gap-2 align-items-center class-action-group-end ms-auto">
+                <% if (isProfesor) { %>
+                    <button class="btn btn-outline-danger btn-sm rounded-pill px-4" onclick="deleteClass('<%= clase.id %>', '<%= clase.nombre_clase %>')">
+                        <i class="fa-solid fa-trash me-2"></i> Eliminar clase
+                    </button>
+                <% } %>
+                <button class="btn btn-outline-primary btn-sm rounded-pill px-4" type="button" data-bs-toggle="collapse" data-bs-target="#announcementForm">
+                    <i class="fa-solid fa-bullhorn me-2"></i> Crear anuncio
                 </button>
-                <button id="tabRendimientoBtn" class="btn btn-outline-secondary btn-sm rounded-pill px-4" onclick="switchSection('rendimiento')">
-                    <i class="fa-solid fa-chart-line me-2"></i> Rendimiento de Clase
-                </button>
-                <button class="btn btn-outline-danger btn-sm rounded-pill px-4 ms-auto" onclick="deleteClass('<%= clase.id %>', '<%= clase.nombre_clase %>')">
-                    <i class="fa-solid fa-trash me-2"></i> Eliminar clase
-                </button>
-            <% } %>
-            <button class="btn btn-outline-primary btn-sm rounded-pill px-4" type="button" data-bs-toggle="collapse" data-bs-target="#announcementForm">
-                <i class="fa-solid fa-bullhorn me-2"></i> Crear anuncio
-            </button>
+            </div>
         </div>
         <div class="collapse mb-4" id="announcementForm">
             <div class="card card-body bg-white shadow-sm">

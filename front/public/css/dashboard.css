@@ -712,3 +712,66 @@ body {
         font-size: 0.95rem !important;
     }
 }
+
+/* Top navbar action layout improvements */
+.navbar-actions {
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.navbar-actions .nav-action,
+.navbar-actions .dropdown {
+    white-space: nowrap;
+}
+
+.navbar-actions .nav-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+}
+
+.navbar-actions .nav-action:hover {
+    background: rgba(76, 99, 255, 0.05);
+}
+
+.class-action-row {
+    align-items: center;
+}
+
+.class-action-group-end {
+    justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+    .class-action-row {
+        width: 100%;
+    }
+
+    .class-action-row .btn {
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 576px) {
+    .class-action-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .class-action-row .class-action-group-start,
+    .class-action-row .class-action-group-end {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .class-action-row .class-action-group-end {
+        margin-top: 0.75rem;
+    }
+
+    .class-action-row .btn {
+        width: 100%;
+        min-width: auto;
+    }
+}
