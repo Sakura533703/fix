@@ -661,3 +661,54 @@ body {
         min-height: 200px;
     }
 }
+
+/* Fix: ensure main content and class sections take full width on small screens
+   The original rule used a calc(...) max-width which can produce a very narrow
+   content area on small viewports. Override it for smaller sizes so class
+   sections (tareas/personas/rendimiento/etc.) behave like the dashboard. */
+@media (max-width: 991.98px) {
+    .main-content.container {
+        max-width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        box-sizing: border-box;
+    }
+
+    /* Make sure grid columns collapse naturally and cards span full width */
+    .main-content .row > [class*="col-"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Ensure page header and cards use full width and keep padding */
+    .page-header-card,
+    .card {
+        width: 100% !important;
+    }
+
+    /* Sidebar toggle is visible on smaller screens; avoid shifting content */
+    .sidebar {
+        position: fixed;
+    }
+}
+
+/* Responsive tweaks for the page header to improve mobile layout */
+@media (max-width: 576px) {
+    .page-header-card {
+        padding: 16px !important;
+        border-radius: 20px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .page-header-card .display-6,
+    .page-header-card h1 {
+        font-size: 1.25rem !important;
+        line-height: 1.1 !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .page-header-card p {
+        font-size: 0.95rem !important;
+    }
+}
