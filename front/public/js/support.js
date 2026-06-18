@@ -146,3 +146,4 @@ async function openAssignDialog(reportId) {
         Swal.fire('Error', err.message || 'Error al asignar', 'error');
     }
 }
+
