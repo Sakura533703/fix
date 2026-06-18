@@ -27,7 +27,8 @@ exports.createClass = async (req, res) => {
             return res.status(400).json({ error: "El profesor especificado no existe" });
         }
 
-        const codigo_acceso = crypto.randomBytes(3).toString('hex'); 
+        let codigo_acceso = crypto.randomBytes(3).toString('hex');
+        codigo_acceso = codigo_acceso.toUpperCase();
 
         const { data: nuevaClase, error: errorClase } = await supabase
             .from('clases')
@@ -72,10 +73,11 @@ exports.joinClass = async (req, res) => {
             return res.status(400).json({ error: "El código de clase es obligatorio" });
         }
 
+        const normalizedCode = codigo_acceso.toUpperCase();
         const { data: clase, error: claseError } = await supabase
             .from('clases')
             .select('id')
-            .eq('codigo_acceso', codigo_acceso)
+            .eq('codigo_acceso', normalizedCode)
             .single();
 
         if (claseError || !clase) {
