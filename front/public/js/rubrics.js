@@ -135,6 +135,7 @@ async function createNewRubric(btn) {
 
     const btnEl = btn || getPrimaryButtonInModal('rubricModal');
     setButtonLoading(btnEl, true, 'Creando...');
+    showLoading('Creando rúbrica', 'Por favor espere...');
     try {
         const payload = {
             criterio,
@@ -178,12 +179,12 @@ async function createNewRubric(btn) {
         showError('Error', err.message);
     } finally {
         setButtonLoading(btnEl, false);
+        try { Swal.close(); } catch (e) {}
     }
 }
 
 
 function editRubric(id, criterio, descripcion, puntos) {
-    // Preserve the current class context so refresh uses the class-specific rubrics
     window.rubricModalClaseId = window.claseId || window.rubricModalClaseId || null;
     document.getElementById('editRubricId').value = id;
     document.getElementById('editRubricCriterio').value = criterio;
