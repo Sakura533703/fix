@@ -73,6 +73,14 @@ body {
     margin-right: 6px;
 }
 
+/* Ensure navbar brand and actions can reach viewport edges when header container is full width */
+.navbar .navbar-brand {
+    margin-left: 0 !important;
+}
+.navbar-actions {
+    margin-right: 20px !important;
+}
+
 .nav-action {
     white-space: nowrap;
 }
