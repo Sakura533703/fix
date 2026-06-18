@@ -73,9 +73,9 @@ body {
     margin-right: 6px;
 }
 
-/* Ensure navbar brand and actions can reach viewport edges when header container is full width */
+
 .navbar .navbar-brand {
-    margin-left: 0 !important;
+    margin-left: 12px !important;
 }
 .navbar-actions {
     margin-right: 20px !important;
@@ -342,6 +342,10 @@ body {
     .overlay {
         display: none !important;
     }
+}
+
+.content-section {
+    display: none;
 }
 
 .content-section.active {
