@@ -283,7 +283,7 @@ body {
 }
 
 .main-content.container {
-    max-width: calc(100vw - 320px);
+    max-width: 100%;
 }
 
 @media (min-width: 992px) {
@@ -301,6 +301,12 @@ body {
         top: 72px;
         height: calc(100vh - 72px);
         transform: translateX(0);
+    }
+
+    .navbar-logo {
+        height: 44px;
+        display: inline-block;
+        object-fit: contain;
     }
 
     .overlay {

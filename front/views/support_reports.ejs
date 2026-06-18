@@ -12,6 +12,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
         <div class="container-fluid px-0">
             <div class="navbar-inner d-flex align-items-center position-relative w-100">
+                <a class="navbar-brand d-flex align-items-center me-2" href="/">
+                    <img src="/public/img/maxgradeplacapng.png" alt="MaxGrade" class="navbar-logo">
+                </a>
                 <button class="btn btn-light border-0 text-dark" id="sidebarToggle"><i class="fa-solid fa-bars"></i></button>
                 <div class="navbar-actions d-flex align-items-center gap-3 ms-auto">
                     <a href="/dashboard" class="nav-action text-dark small d-flex align-items-center gap-2">
@@ -39,14 +42,16 @@
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <a href="/dashboard" class="d-flex align-items-center gap-2 text-decoration-none">
-                <img src="/public/img/maxgradeplacapng.png" alt="Logo MaxGrade" class="sidebar-logo">
-            </a>
+            <div class="d-flex align-items-center gap-2 text-decoration-none">
+                <div class="brand-title">MaxGrade</div>
+            </div>
         </div>
         <ul class="sidebar-menu">
             <li>Realiza click en el boton deseado para ir a donde desees:</li>
             <li><a href="/dashboard" class="sidebar-link"><i class="fa-solid fa-graduation-cap me-3"></i>Mis clases</a></li>
             <li><a href="#" class="sidebar-link active"><i class="fa-solid fa-headset me-3"></i>Mis reportes</a></li>
+            <li><a href="/terminos" class="sidebar-link"><i class="fa-solid fa-file-contract me-3"></i>Términos y condiciones</a></li>
+            <li><a href="/privacidad" class="sidebar-link"><i class="fa-solid fa-user-shield me-3"></i>Aviso de privacidad</a></li>
         </ul>
         <div class="sidebar-footer">
             <div class="mt-3">
