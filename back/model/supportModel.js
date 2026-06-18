@@ -9,7 +9,7 @@ class SupportModel {
                 tipo_problema: reportData.tipo_problema,
                 descripcion: reportData.descripcion,
                 url_evidencia: reportData.url_evidencia,
-                estado: 'pendiente'
+                estado: 'abierto'
             }])
             .select();
         return { data, error };
@@ -22,6 +22,45 @@ class SupportModel {
                 .select('*')
                 .eq('usuario_id', userId)
                 .order('fecha_creacion', { ascending: false });
+            return { data, error };
+        } catch (err) {
+            return { data: null, error: err };
+        }
+    }
+
+    static async getAll() {
+        try {
+            const { data, error } = await supabase
+                .from('reportes_soporte')
+                .select('*')
+                .order('fecha_creacion', { ascending: false });
+            return { data, error };
+        } catch (err) {
+            return { data: null, error: err };
+        }
+    }
+
+    static async updateStatus(reportId, patch) {
+        try {
+            const { data, error } = await supabase
+                .from('reportes_soporte')
+                .update(patch)
+                .eq('id', reportId)
+                .select()
+                .single();
+            return { data, error };
+        } catch (err) {
+            return { data: null, error: err };
+        }
+    }
+
+    static async getById(reportId) {
+        try {
+            const { data, error } = await supabase
+                .from('reportes_soporte')
+                .select('*')
+                .eq('id', reportId)
+                .single();
             return { data, error };
         } catch (err) {
             return { data: null, error: err };

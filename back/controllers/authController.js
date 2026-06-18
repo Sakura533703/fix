@@ -84,6 +84,8 @@ exports.login = async (req, res) => {
             nombre: usuario.nombre,
             apellido: usuario.apellido,
             email: usuario.email,
+            rol: usuario.rol,
+            is_support: usuario.is_support || false
         };
 
         const token = jwt.sign(userData, process.env.JWT_SECRET || 'tu_clave_secreta', {

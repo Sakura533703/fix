@@ -17,6 +17,7 @@ const PostModel = require('./model/postModel');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const { authenticateToken } = require('./middleware/authMiddleware');
+const { isSupport } = require('./middleware/checkSupport');
 
 const app = express();
 
@@ -119,6 +120,17 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
             user: req.user || req.session?.user || {}, 
             clases: [] 
         });
+    }
+});
+
+
+app.get('/support', authenticateToken, isSupport, async (req, res) => {
+    try {
+        const user = req.user || req.session?.user;
+        res.render('support_dashboard', { user });
+    } catch (err) {
+        console.error('Error loading support dashboard:', err);
+        res.redirect('/dashboard');
     }
 });
 

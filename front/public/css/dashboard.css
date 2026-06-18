@@ -600,7 +600,7 @@ body {
     overflow: hidden;
 }
 
-/* Ensure the section label inside class banners is white and readable */
+
 .class-banner .small,
 .class-banner p.small {
     color: #ffffff !important;

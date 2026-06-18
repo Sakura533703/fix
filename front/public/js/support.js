@@ -100,3 +100,49 @@ async function transcribeSupportFile() {
         errorContainer.classList.remove('d-none');
     }
 }
+
+async function fetchTechnicians() {
+    const res = await fetch('/api/support/technicians', { credentials: 'include' });
+    if (!res.ok) return [];
+    return await res.json();
+}
+
+
+async function openAssignDialog(reportId) {
+    try {
+        const techs = await fetchTechnicians();
+        if (!techs || techs.length === 0) {
+            await Swal.fire('Sin técnicos', 'No hay técnicos disponibles para asignar.', 'info');
+            return;
+        }
+
+        const inputOptions = techs.reduce((acc, t) => {
+            acc[t.id] = `${t.nombre || ''} ${t.apellido || ''}`.trim() || t.email;
+            return acc;
+        }, {});
+
+        const { value: assignedId } = await Swal.fire({
+            title: 'Asignar técnico',
+            input: 'select',
+            inputOptions: inputOptions,
+            inputPlaceholder: 'Selecciona un técnico',
+            showCancelButton: true
+        });
+
+        if (!assignedId) return;
+
+        const resp = await fetch(`/api/support/${reportId}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ asignado_a: assignedId })
+        });
+        if (!resp.ok) throw new Error('No se pudo asignar el técnico');
+        await Swal.fire('Asignado', 'El reporte fue asignado correctamente.', 'success');
+        
+        if (typeof loadAllReports === 'function') loadAllReports();
+    } catch (err) {
+        console.error(err);
+        Swal.fire('Error', err.message || 'Error al asignar', 'error');
+    }
+}
