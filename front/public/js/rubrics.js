@@ -64,21 +64,25 @@ function displayRubrics(rubrics) {
         return;
     }
 
-    tbody.innerHTML = rubrics.map(r => `
+    tbody.innerHTML = rubrics.map(r => {
+        const criterioJson = JSON.stringify(r.criterio || '');
+        const descripcionJson = JSON.stringify(r.descripcion || '');
+        return `
         <tr>
             <td><strong>${r.criterio}</strong></td>
             <td>${r.descripcion || '-'}</td>
             <td class="text-center">${r.puntos_maximos}</td>
             <td class="text-center">
-                <button class="menu-button-sm" onclick="editRubric('${r.id}', '${r.criterio.replace(/'/g, "\\'")}', '${(r.descripcion || '').replace(/'/g, "\\'")}', ${r.puntos_maximos})">
+                <button class="menu-button-sm" onclick="editRubric(${JSON.stringify(r.id)}, ${criterioJson}, ${descripcionJson}, ${r.puntos_maximos})">
                     <i class="fa-solid fa-pen"></i> Editar
                 </button>
-                <button class="menu-button-sm" onclick="deleteRubric('${r.id}', '${r.criterio}')">
+                <button class="menu-button-sm" onclick="deleteRubric(${JSON.stringify(r.id)}, ${criterioJson})">
                     <i class="fa-solid fa-trash"></i> Eliminar
                 </button>
             </td>
         </tr>
-    `).join('');
+    `;
+    }).join('');
 }
 
 
@@ -190,8 +194,16 @@ async function saveRubricChanges() {
 
 
 async function deleteRubric(id, criterio) {
-    if (!confirm(`¿Estás seguro de que deseas eliminar la rúbrica "${criterio}"?`)) return;
+    const result = await showConfirm(
+        'Eliminar rúbrica?',
+        `¿Estás seguro de que deseas eliminar la rúbrica "${criterio}"?`,
+        'Sí, eliminar',
+        'Cancelar'
+    );
 
+    if (!result.isConfirmed) return;
+
+    showLoading('Eliminando rúbrica', 'Por favor espere...');
     try {
         const response = await fetch(`/api/rubrics/${id}`, {
             method: 'DELETE',
@@ -199,8 +211,8 @@ async function deleteRubric(id, criterio) {
         });
 
         if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.error || 'Error al eliminar');
+            const data = await response.json().catch(() => null);
+            throw new Error(data?.error || 'Error al eliminar');
         }
 
         await showSuccess('Rúbrica eliminada', 'Se eliminó correctamente');
