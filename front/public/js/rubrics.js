@@ -44,13 +44,14 @@ async function loadRubricsByClass(claseId) {
 }
 
 async function refreshRubricViews() {
-    if (window.rubricModalClaseId) {
-        await loadRubricsByClass(window.rubricModalClaseId);
+    const claseToUse = window.rubricModalClaseId || window.claseId || null;
+    if (claseToUse) {
+        await loadRubricsByClass(claseToUse);
     } else {
         await loadAllRubrics();
     }
-    if (window.rubricModalContext === 'assignment' && window.rubricModalClaseId) {
-        loadRubricsForAssignment(window.rubricModalClaseId);
+    if (window.rubricModalContext === 'assignment' && claseToUse) {
+        loadRubricsForAssignment(claseToUse);
     }
 }
 
@@ -182,6 +183,8 @@ async function createNewRubric(btn) {
 
 
 function editRubric(id, criterio, descripcion, puntos) {
+    // Preserve the current class context so refresh uses the class-specific rubrics
+    window.rubricModalClaseId = window.claseId || window.rubricModalClaseId || null;
     document.getElementById('editRubricId').value = id;
     document.getElementById('editRubricCriterio').value = criterio;
     document.getElementById('editRubricDescripcion').value = descripcion;
