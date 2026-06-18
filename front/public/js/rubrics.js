@@ -55,6 +55,16 @@ async function refreshRubricViews() {
 }
 
 
+function escapeHtml(value) {
+    if (value === undefined || value === null) return '';
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function displayRubrics(rubrics) {
     const tbody = document.getElementById('rubricsTableBody');
     if (!tbody) return;
@@ -65,24 +75,51 @@ function displayRubrics(rubrics) {
     }
 
     tbody.innerHTML = rubrics.map(r => {
-        const criterioJson = JSON.stringify(r.criterio || '');
-        const descripcionJson = JSON.stringify(r.descripcion || '');
+        const criterio = r.criterio || '';
+        const descripcion = r.descripcion || '';
         return `
         <tr>
-            <td><strong>${r.criterio}</strong></td>
-            <td>${r.descripcion || '-'}</td>
+            <td><strong>${escapeHtml(criterio)}</strong></td>
+            <td>${escapeHtml(descripcion) || '-'}</td>
             <td class="text-center">${r.puntos_maximos}</td>
             <td class="text-center">
-                <button class="menu-button-sm" onclick='editRubric(${JSON.stringify(r.id)}, ${criterioJson}, ${descripcionJson}, ${r.puntos_maximos})'>
+                <button type="button" class="menu-button-sm edit-rubric-btn"
+                    data-rubric-id="${escapeHtml(r.id)}"
+                    data-rubric-criterio="${escapeHtml(criterio)}"
+                    data-rubric-descripcion="${escapeHtml(descripcion)}"
+                    data-rubric-puntos="${r.puntos_maximos}">
                     <i class="fa-solid fa-pen"></i> Editar
                 </button>
-                <button class="menu-button-sm" onclick='deleteRubric(${JSON.stringify(r.id)}, ${criterioJson})'>
+                <button type="button" class="menu-button-sm delete-rubric-btn"
+                    data-rubric-id="${escapeHtml(r.id)}"
+                    data-rubric-criterio="${escapeHtml(criterio)}">
                     <i class="fa-solid fa-trash"></i> Eliminar
                 </button>
             </td>
         </tr>
     `;
     }).join('');
+
+    attachRubricRowListeners();
+}
+
+function attachRubricRowListeners() {
+    document.querySelectorAll('.edit-rubric-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            editRubric(
+                btn.dataset.rubricId,
+                btn.dataset.rubricCriterio,
+                btn.dataset.rubricDescripcion,
+                Number(btn.dataset.rubricPuntos)
+            );
+        });
+    });
+
+    document.querySelectorAll('.delete-rubric-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            deleteRubric(btn.dataset.rubricId, btn.dataset.rubricCriterio);
+        });
+    });
 }
 
 
@@ -196,7 +233,7 @@ async function saveRubricChanges() {
 async function deleteRubric(id, criterio) {
     const result = await showConfirm(
         'Eliminar rúbrica?',
-        `¿Estás seguro de que deseas eliminar la rúbrica "${criterio}"?`,
+        '¿Estás seguro de que deseas eliminar la rúbrica "' + criterio + '"?',
         'Sí, eliminar',
         'Cancelar'
     );
