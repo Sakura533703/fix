@@ -19,7 +19,7 @@ class SupportModel {
         try {
             const { data, error } = await supabase
                 .from('reportes_soporte')
-                .select('*, asignado:usuarios!asignado_a (id, nombre, apellido)')
+                .select('*')
                 .eq('usuario_id', userId)
                 .order('fecha_creacion', { ascending: false });
             return { data, error };
@@ -32,7 +32,7 @@ class SupportModel {
         try {
             const { data, error } = await supabase
                 .from('reportes_soporte')
-                .select('*, asignado:usuarios!asignado_a (id, nombre, apellido)')
+                .select('*')
                 .order('fecha_creacion', { ascending: false });
             return { data, error };
         } catch (err) {
@@ -58,7 +58,7 @@ class SupportModel {
         try {
             const { data, error } = await supabase
                 .from('reportes_soporte')
-                .select('*, asignado:usuarios!asignado_a (id, nombre, apellido)')
+                .select('*')
                 .eq('id', reportId)
                 .single();
             return { data, error };

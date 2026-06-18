@@ -73,7 +73,20 @@ exports.listUserReports = async (req, res) => {
         const { data, error } = await SupportModel.getByUser(usuario.id);
         if (error) throw error;
 
-        res.json(data || []);
+      
+        const rows = data || [];
+        const assignedIds = [...new Set(rows.filter(r => r.asignado_a).map(r => r.asignado_a))];
+        if (assignedIds.length > 0) {
+            try {
+                const { data: techs } = await supabase.from('usuarios').select('id, nombre, apellido, avatar_url').in('id', assignedIds);
+                const map = (techs || []).reduce((acc, t) => { acc[t.id] = t; return acc; }, {});
+                rows.forEach(r => { r.asignado = r.asignado_a ? map[r.asignado_a] || null : null; });
+            } catch (e) {
+                console.warn('Could not fetch assigned users for listUserReports:', e.message || e);
+            }
+        }
+
+        res.json(rows);
     } catch (err) {
         console.error('Error listando reportes:', err);
         res.status(500).json({ error: 'No se pudieron obtener los reportes' });
@@ -84,7 +97,19 @@ exports.listAllReports = async (req, res) => {
     try {
         const { data, error } = await SupportModel.getAll();
         if (error) throw error;
-        res.json(data || []);
+        const rows = data || [];
+        const assignedIds = [...new Set(rows.filter(r => r.asignado_a).map(r => r.asignado_a))];
+        if (assignedIds.length > 0) {
+            try {
+                const { data: techs } = await supabase.from('usuarios').select('id, nombre, apellido, avatar_url').in('id', assignedIds);
+                const map = (techs || []).reduce((acc, t) => { acc[t.id] = t; return acc; }, {});
+                rows.forEach(r => { r.asignado = r.asignado_a ? map[r.asignado_a] || null : null; });
+            } catch (e) {
+                console.warn('Could not fetch assigned users for listAllReports:', e.message || e);
+            }
+        }
+
+        res.json(rows);
     } catch (err) {
         console.error('Error listando todos los reportes:', err);
         res.status(500).json({ error: 'No se pudieron obtener los reportes' });
@@ -166,7 +191,18 @@ exports.getReport = async (req, res) => {
             console.warn('Could not fetch reporter info:', ue.message);
         }
 
-        res.json(Object.assign({}, data, { reporter }));
+      
+        let assigned = null;
+        try {
+            if (data.asignado_a) {
+                const { data: auser, error: aerr } = await supabase.from('usuarios').select('id, nombre, apellido, avatar_url').eq('id', data.asignado_a).single();
+                if (!aerr && auser) assigned = auser;
+            }
+        } catch (ae) {
+            console.warn('Could not fetch assigned user for report:', ae.message || ae);
+        }
+
+        res.json(Object.assign({}, data, { reporter, asignado: assigned }));
     } catch (err) {
         console.error('Error obteniendo reporte:', err);
         res.status(500).json({ error: 'No se pudo obtener el reporte' });

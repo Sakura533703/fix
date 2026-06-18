@@ -152,7 +152,7 @@ app.get('/support/:id', authenticateToken, isSupport, async (req, res) => {
             const { data: udata } = await supabase.from('usuarios').select('id, nombre, apellido, email').eq('id', report.usuario_id).single();
             reporter = udata;
         } catch (e) {
-            // ignore
+            
         }
 
         res.render('support_detail', { user, report, reporter });
