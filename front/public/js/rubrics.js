@@ -73,10 +73,10 @@ function displayRubrics(rubrics) {
             <td>${r.descripcion || '-'}</td>
             <td class="text-center">${r.puntos_maximos}</td>
             <td class="text-center">
-                <button class="menu-button-sm" onclick="editRubric(${JSON.stringify(r.id)}, ${criterioJson}, ${descripcionJson}, ${r.puntos_maximos})">
+                <button class="menu-button-sm" onclick='editRubric(${JSON.stringify(r.id)}, ${criterioJson}, ${descripcionJson}, ${r.puntos_maximos})'>
                     <i class="fa-solid fa-pen"></i> Editar
                 </button>
-                <button class="menu-button-sm" onclick="deleteRubric(${JSON.stringify(r.id)}, ${criterioJson})">
+                <button class="menu-button-sm" onclick='deleteRubric(${JSON.stringify(r.id)}, ${criterioJson})'>
                     <i class="fa-solid fa-trash"></i> Eliminar
                 </button>
             </td>
