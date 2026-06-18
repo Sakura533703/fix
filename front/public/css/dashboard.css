@@ -600,6 +600,14 @@ body {
     overflow: hidden;
 }
 
+/* Ensure the section label inside class banners is white and readable */
+.class-banner .small,
+.class-banner p.small {
+    color: #ffffff !important;
+    opacity: 0.95 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
 .class-card .card-title {
     font-size: 1.35rem;
 }
