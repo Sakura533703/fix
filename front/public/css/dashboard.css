@@ -298,16 +298,14 @@ body {
     }
 
     .sidebar {
+        top: 72px;
+        height: calc(100vh - 72px);
         transform: translateX(0);
     }
 
     .overlay {
         display: none !important;
     }
-}
-
-.content-section {
-    display: none;
 }
 
 .content-section.active {

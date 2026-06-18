@@ -59,6 +59,22 @@ app.get('/registro', (req, res) => {
     res.render('register'); 
 });
 
+app.get('/privacidad', (req, res) => {
+    res.render('privacidad');
+});
+
+app.get('/terminos', (req, res) => {
+    res.render('terminos');
+});
+
+app.get('/privacidad', (req, res) => {
+    res.render('privacidad');
+});
+
+app.get('/terminos', (req, res) => {
+    res.render('terminos');
+});
+
 app.get('/dashboard', authenticateToken, async (req, res) => {
     try {
         const user = req.user || req.session?.user;

@@ -178,7 +178,6 @@ exports.uploadBanner = async (req, res) => {
             return res.status(400).json({ error: "No se subió ningún archivo" });
         }
 
-        // Verificar que el usuario es profesor de la clase
         const { data: clase } = await supabase
             .from('clases')
             .select('profesor_id, portada_url')
