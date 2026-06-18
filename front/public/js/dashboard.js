@@ -24,6 +24,16 @@ document.addEventListener('DOMContentLoaded', function() {
     refreshSidebarToggle();
     window.addEventListener('resize', refreshSidebarToggle);
 
+    // Initialize class code input boxes (if present)
+    if (typeof setupClassCodeInputs === 'function') setupClassCodeInputs();
+    const joinModalEl = document.getElementById('joinModal');
+    if (joinModalEl) {
+        joinModalEl.addEventListener('shown.bs.modal', function () {
+            const first = document.querySelector('#classCodeContainer .code-input');
+            if (first) first.focus();
+        });
+    }
+
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function() {
             sidebar.classList.toggle('show');
@@ -97,6 +107,52 @@ function escapeHtml(text) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+}
+
+/* Class code input helpers */
+function getClassCodeFromBoxes() {
+    const boxes = document.querySelectorAll('#classCodeContainer .code-input');
+    if (!boxes || boxes.length === 0) return null;
+    let code = '';
+    boxes.forEach(b => { code += (b.value || '').toUpperCase(); });
+    return code;
+}
+
+function setupClassCodeInputs() {
+    const container = document.getElementById('classCodeContainer');
+    if (!container) return;
+    const inputs = container.querySelectorAll('.code-input');
+    inputs.forEach((input, idx) => {
+        input.addEventListener('input', (e) => {
+            const val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            e.target.value = val;
+            if (val && idx < inputs.length - 1) {
+                inputs[idx + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+                inputs[idx - 1].focus();
+            }
+            if (e.key === 'ArrowLeft' && idx > 0) inputs[idx - 1].focus();
+            if (e.key === 'ArrowRight' && idx < inputs.length - 1) inputs[idx + 1].focus();
+        });
+
+        input.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const paste = (e.clipboardData || window.clipboardData).getData('text').trim().toUpperCase();
+            const chars = paste.replace(/[^A-Z0-9]/g, '').split('');
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].value = chars[i] || '';
+            }
+            // focus next empty or last
+            for (let j = 0; j < inputs.length; j++) {
+                if (!inputs[j].value) { inputs[j].focus(); return; }
+            }
+            inputs[inputs.length - 1].focus();
+        });
+    });
 }
 
 async function loadPendingAssignments() {
@@ -313,7 +369,10 @@ async function createClass() {
 }
 
 async function joinClass() {
-    const codigo_acceso = document.getElementById('classCode')?.value.trim();
+    let codigo_acceso = null;
+    const fromBoxes = getClassCodeFromBoxes();
+    if (fromBoxes) codigo_acceso = fromBoxes;
+    if (!codigo_acceso) codigo_acceso = document.getElementById('classCode')?.value.trim();
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (!validateNotEmpty(codigo_acceso, 'El código de clase')) return;

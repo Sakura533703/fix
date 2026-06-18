@@ -7,7 +7,14 @@
             </div>
             <div class="modal-body">
                 <p class="small text-muted">Pídele el código de la clase a tu profesor e introdúcelo aquí.</p>
-                <input type="text" id="classCode" class="form-control form-control-lg" placeholder="Código de la clase">
+                <div id="classCodeContainer" class="d-flex gap-2">
+                    <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 1">
+                    <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 2">
+                    <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 3">
+                    <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 4">
+                    <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 5">
+                    <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 6">
+                </div>
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>

@@ -232,6 +232,24 @@ body {
     transition: all 0.25s ease;
 }
 
+/* Code input boxes for joining class */
+.code-input {
+    width: 56px;
+    height: 56px;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 1px solid rgba(15,23,42,0.08);
+    background: #fff;
+}
+.code-input:focus {
+    outline: none;
+    box-shadow: 0 6px 14px rgba(76,99,255,0.12);
+    border-color: rgba(76,99,255,0.4);
+}
+
 .sidebar-menu a.active {
     background: var(--dashboard-violet-soft);
     color: var(--dashboard-violet);
@@ -411,7 +429,6 @@ body {
     transform: translate(-50%, -50%);
 }
 
-/* Ensure Bootstrap modal backdrop covers the left sidebar and dims it too */
 .modal-backdrop {
     z-index: 1070 !important;
 }
