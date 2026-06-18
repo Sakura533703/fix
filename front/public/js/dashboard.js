@@ -144,7 +144,8 @@ function setupClassCodeInputs() {
     const inputs = container.querySelectorAll('.code-input');
     inputs.forEach((input, idx) => {
         input.addEventListener('input', (e) => {
-            const val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            let val = (e.target.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (val.length > 1) val = val.charAt(0);
             e.target.value = val;
             if (val && idx < inputs.length - 1) {
                 inputs[idx + 1].focus();
@@ -152,6 +153,18 @@ function setupClassCodeInputs() {
         });
 
         input.addEventListener('keydown', (e) => {
+            // If user presses a printable character, replace current value and move focus
+            const isPrintable = e.key && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey;
+            if (isPrintable) {
+                const ch = e.key.toUpperCase();
+                if (/^[A-Z0-9]$/.test(ch)) {
+                    e.preventDefault();
+                    e.target.value = ch;
+                    if (idx < inputs.length - 1) inputs[idx + 1].focus();
+                    return;
+                }
+            }
+
             if (e.key === 'Backspace' && !e.target.value && idx > 0) {
                 inputs[idx - 1].focus();
             }
