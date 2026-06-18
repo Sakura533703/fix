@@ -12,6 +12,7 @@ const unitsRoutes = require('./routes/unitsRoutes');
 const rubricRoutes = require('./routes/rubricRoutes');
 const postRoutes = require('./routes/postRoutes');
 const supportRoutes = require('./routes/supportRoutes');
+const SupportModel = require('./model/supportModel');
 const integrationRoutes = require('./routes/integrationRoutes');
 const PostModel = require('./model/postModel');
 const session = require('express-session');
@@ -131,6 +132,33 @@ app.get('/support', authenticateToken, isSupport, async (req, res) => {
     } catch (err) {
         console.error('Error loading support dashboard:', err);
         res.redirect('/dashboard');
+    }
+});
+
+app.get('/support/:id', authenticateToken, isSupport, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = req.user || req.session?.user;
+        if (!user) return res.redirect('/login');
+
+        const { data: report, error } = await SupportModel.getById(id);
+        if (error || !report) {
+            console.warn('Report not found for id', id, error);
+            return res.redirect('/support');
+        }
+
+        let reporter = null;
+        try {
+            const { data: udata } = await supabase.from('usuarios').select('id, nombre, apellido, email').eq('id', report.usuario_id).single();
+            reporter = udata;
+        } catch (e) {
+            // ignore
+        }
+
+        res.render('support_detail', { user, report, reporter });
+    } catch (err) {
+        console.error('Error rendering support detail:', err);
+        res.redirect('/support');
     }
 });
 
