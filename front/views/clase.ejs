@@ -696,16 +696,16 @@
     <script src="/public/js/tareas.js"></script>
     <script src="/public/js/rubrics.js"></script>
     <script>
-        const claseId = '<%= clase.id %>';
+        window.claseId = '<%= clase.id %>';
         
         document.addEventListener('DOMContentLoaded', function() {
            
-            loadRubricsByClass(claseId);
+            loadRubricsByClass(window.claseId);
             
             const modal = document.getElementById('createAssignmentModal');
             if (modal) {
                 modal.addEventListener('shown.bs.modal', function() {
-                    loadRubricsForAssignment(claseId);
+                    loadRubricsForAssignment(window.claseId);
                 });
             }
         });

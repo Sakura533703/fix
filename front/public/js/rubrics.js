@@ -22,7 +22,7 @@ function openRubricModal(context = null, taskId = null, claseId = null) {
     window.rubricModalTaskId = taskId;
     window.rubricModalClaseId = claseId;
     
-    if (context === 'assignment' && claseId) {
+    if (claseId) {
         loadRubricsByClass(claseId);
     } else {
         loadAllRubrics();
