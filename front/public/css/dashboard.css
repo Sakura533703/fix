@@ -492,6 +492,12 @@ body {
     color: var(--accent-blue);
 }
 
+/* Ensure table cells are vertically centered (rubrics table) */
+.table th,
+.table td {
+    vertical-align: middle !important;
+}
+
 .overlay {
     position: fixed;
     top: 0;
