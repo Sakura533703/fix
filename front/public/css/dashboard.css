@@ -250,10 +250,24 @@ body {
     border: 1px solid rgba(15,23,42,0.08);
     background: #fff;
 }
-.code-input:focus {
+.code-input {
+    transition: box-shadow 180ms ease, transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    will-change: transform, box-shadow;
+}
+
+.code-input:focus,
+.code-input:focus-visible {
     outline: none;
-    box-shadow: 0 6px 14px rgba(76,99,255,0.12);
-    border-color: rgba(76,99,255,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(76,99,255,0.12);
+    border-color: rgba(76,99,255,0.5);
+    background: #ffffff;
+}
+
+
+.code-input:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(76,99,255,0.04);
 }
 
 .sidebar-menu a.active {
