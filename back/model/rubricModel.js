@@ -74,7 +74,7 @@ class RubricModel {
             .from('tarea_rubricas')
             .select('tarea_id')
             .eq('rubrica_id', rubricaId)
-            .single();
+            .maybeSingle();
         return { data, error };
     }
 
