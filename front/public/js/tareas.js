@@ -1,4 +1,4 @@
-async function publishAssignment(claseId) {
+async function publishAssignment(claseId, btn) {
     const title = document.getElementById('taskTitle')?.value.trim();
     const instructions = document.getElementById('taskInstructions')?.value.trim();
     const points = document.getElementById('taskPoints')?.value;
@@ -42,6 +42,8 @@ async function publishAssignment(claseId) {
         formData.append('archivo_guia', fileInput.files[0]);
     }
 
+    const btnEl = btn || getPrimaryButtonInModal('createAssignmentModal');
+    setButtonLoading(btnEl, true, 'Creando...');
     showLoading('Creando tarea', 'Por favor espere...');
 
     try {
@@ -60,6 +62,9 @@ async function publishAssignment(claseId) {
         }
     } catch (err) {
         showError('Error de conexión', 'No se pudo conectar con el servidor');
+    } finally {
+        setButtonLoading(btnEl, false);
+        try { Swal.close(); } catch (e) {}
     }
 }
 
@@ -121,7 +126,7 @@ async function loadUnitsForClass(claseId) {
     }
 }
 
-async function createUnit(claseId) {
+async function createUnit(claseId, btn) {
     const unitNumber = document.getElementById('unitNumber')?.value;
     const unitName = document.getElementById('unitName')?.value.trim();
     const unitDescription = document.getElementById('unitDescription')?.value.trim();
@@ -129,6 +134,8 @@ async function createUnit(claseId) {
     if (!validateNotEmpty(unitName, 'El nombre de la unidad')) return;
     if (!validateRange(unitNumber, 1, 99, 'El número de unidad')) return;
 
+    const btnEl = btn || getPrimaryButtonInModal('createUnitModal');
+    setButtonLoading(btnEl, true, 'Creando...');
     showLoading('Creando unidad', 'Por favor espere...');
 
     try {
@@ -162,6 +169,9 @@ async function createUnit(claseId) {
     } catch (err) {
         console.error('Error:', err);
         showError('Error de conexión', 'No se pudo conectar con el servidor');
+    } finally {
+        setButtonLoading(btnEl, false);
+        try { Swal.close(); } catch (e) {}
     }
 }
 

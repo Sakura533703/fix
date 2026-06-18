@@ -82,7 +82,7 @@ function displayRubrics(rubrics) {
 }
 
 
-async function createNewRubric() {
+async function createNewRubric(btn) {
     const criterio = document.getElementById('newRubricCriterio')?.value;
     const descripcion = document.getElementById('newRubricDescripcion')?.value || '';
     const puntos_maximos = document.getElementById('newRubricPuntos')?.value;
@@ -91,6 +91,8 @@ async function createNewRubric() {
     if (!validateNotEmpty(puntos_maximos, 'Los puntos máximos')) return;
     if (!validateRange(puntos_maximos, 1, 100, 'Los puntos máximos')) return;
 
+    const btnEl = btn || getPrimaryButtonInModal('rubricModal');
+    setButtonLoading(btnEl, true, 'Creando...');
     try {
         const payload = {
             criterio,
@@ -132,6 +134,8 @@ async function createNewRubric() {
     } catch (err) {
         console.error('Error:', err);
         showError('Error', err.message);
+    } finally {
+        setButtonLoading(btnEl, false);
     }
 }
 

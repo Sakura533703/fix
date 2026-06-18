@@ -1,4 +1,4 @@
-async function createPost(claseId) {
+async function createPost(claseId, btn) {
     const contenido = document.getElementById('postContent')?.value.trim();
     const archivoInput = document.getElementById('postFile');
     const tieneArchivo = archivoInput?.files?.length > 0;
@@ -9,6 +9,8 @@ async function createPost(claseId) {
         return;
     }
 
+    const btnEl = btn || null;
+    setButtonLoading(btnEl, true, 'Publicando...');
     showLoading('Publicando anuncio', 'Por favor espere...');
 
     try {
@@ -34,6 +36,9 @@ async function createPost(claseId) {
         }
     } catch (error) {
         showError('Error de conexión', 'No se pudo conectar con el servidor');
+    } finally {
+        setButtonLoading(btnEl, false);
+        try { Swal.close(); } catch (e) {}
     }
 }
 
@@ -445,6 +450,8 @@ async function uploadClassBanner(classId, event) {
         }
     } catch (error) {
         showError('Error de conexión', 'No se pudo conectar con el servidor');
+    } finally {
+        try { Swal.close(); } catch (e) {}
     }
 }
 

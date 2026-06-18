@@ -14,6 +14,12 @@
     --accent-blue: #4c63ff;
 }
 
+/* Ensure SweetAlert2 dialogs appear above Bootstrap modals */
+.swal2-container,
+.swal2-popup {
+    z-index: 3000 !important;
+}
+
 body {
     background-color: var(--page-bg) !important;
     color: var(--dashboard-text);
@@ -232,7 +238,7 @@ body {
     transition: all 0.25s ease;
 }
 
-/* Code input boxes for joining class */
+
 .code-input {
     width: 56px;
     height: 56px;

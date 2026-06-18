@@ -1,4 +1,4 @@
-async function submitSupportReport() {
+async function submitSupportReport(btn) {
     const tipo = document.getElementById('supportProblemType').value;
     const descripcion = document.getElementById('supportDescription').value.trim();
     const fileInput = document.getElementById('supportEvidenceFile');
@@ -17,6 +17,9 @@ async function submitSupportReport() {
         errorContainer.classList.remove('d-none');
         return;
     }
+
+    const btnEl = btn || getPrimaryButtonInModal('supportModal');
+    setButtonLoading(btnEl, true, 'Enviando...');
 
     try {
         const formData = new FormData();
@@ -51,6 +54,8 @@ async function submitSupportReport() {
     } catch (error) {
         errorContainer.textContent = error.message;
         errorContainer.classList.remove('d-none');
+    } finally {
+        setButtonLoading(btnEl, false);
     }
 }
 

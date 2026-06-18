@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     refreshSidebarToggle();
     window.addEventListener('resize', refreshSidebarToggle);
 
-    // Initialize class code input boxes (if present)
     if (typeof setupClassCodeInputs === 'function') setupClassCodeInputs();
     const joinModalEl = document.getElementById('joinModal');
     if (joinModalEl) {
@@ -109,7 +108,28 @@ function escapeHtml(text) {
         .replace(/'/g, '&#39;');
 }
 
-/* Class code input helpers */
+function setButtonLoading(btn, loading, label) {
+    if (!btn) return;
+    if (loading) {
+        if (!btn.dataset.origHtml) btn.dataset.origHtml = btn.innerHTML;
+        btn.disabled = true;
+        const spinner = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>';
+        btn.innerHTML = `${spinner}${label || btn.dataset.loadingLabel || 'Procesando...'}`;
+    } else {
+        if (btn.dataset.origHtml) {
+            btn.innerHTML = btn.dataset.origHtml;
+            delete btn.dataset.origHtml;
+        }
+        btn.disabled = false;
+    }
+}
+
+function getPrimaryButtonInModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return null;
+    return modal.querySelector('.modal-footer .btn-primary');
+}
+
 function getClassCodeFromBoxes() {
     const boxes = document.querySelectorAll('#classCodeContainer .code-input');
     if (!boxes || boxes.length === 0) return null;
@@ -333,7 +353,7 @@ async function loadStudentSubmissions() {
     }
 }
 
-async function createClass() {
+async function createClass(btn) {
     const nombre_clase = document.getElementById('className')?.value.trim();
     const seccion = document.getElementById('classSection')?.value.trim();
     const materia = document.getElementById('classSubject')?.value.trim();
@@ -343,6 +363,8 @@ async function createClass() {
     if (!validateNotEmpty(nombre_clase, 'El nombre de la clase')) return;
     if (!validateNotEmpty(seccion, 'La sección')) return;
 
+    const btnEl = btn || getPrimaryButtonInModal('createModal');
+    setButtonLoading(btnEl, true, 'Creando...');
     try {
         const response = await fetch('/api/classes/create', {
             method: 'POST',
@@ -365,10 +387,12 @@ async function createClass() {
         }
     } catch (error) {
         showError('Error de conexión', 'No se pudo conectar con el servidor');
+    } finally {
+        setButtonLoading(btnEl, false);
     }
 }
 
-async function joinClass() {
+async function joinClass(btn) {
     let codigo_acceso = null;
     const fromBoxes = getClassCodeFromBoxes();
     if (fromBoxes) codigo_acceso = fromBoxes;
@@ -377,6 +401,8 @@ async function joinClass() {
 
     if (!validateNotEmpty(codigo_acceso, 'El código de clase')) return;
 
+    const btnEl = btn || getPrimaryButtonInModal('joinModal');
+    setButtonLoading(btnEl, true, 'Uniendo...');
     try {
         const response = await fetch('/api/classes/join', {
             method: 'POST',
@@ -397,6 +423,8 @@ async function joinClass() {
         }
     } catch (error) {
         showError('Error de conexión', 'No se pudo conectar con el servidor');
+    } finally {
+        setButtonLoading(btnEl, false);
     }
 }
 

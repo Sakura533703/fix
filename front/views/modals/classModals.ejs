@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <p class="small text-muted">Pídele el código de la clase a tu profesor e introdúcelo aquí.</p>
-                <div id="classCodeContainer" class="d-flex gap-2">
+                <div id="classCodeContainer" class="d-flex gap-2 justify-content-center">
                     <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 1">
                     <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 2">
                     <input type="text" maxlength="1" class="code-input form-control" inputmode="text" pattern="[A-Za-z0-9]" aria-label="Código 3">
@@ -18,7 +18,7 @@
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="joinClass()">Unirse</button>
+                <button type="button" class="btn btn-primary" onclick="joinClass(this)">Unirse</button>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="createClass()">Crear</button>
+                <button type="button" class="btn btn-primary" onclick="createClass(this)">Crear</button>
             </div>
         </div>
     </div>
